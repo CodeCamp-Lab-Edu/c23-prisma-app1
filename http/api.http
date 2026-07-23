@@ -1,0 +1,7 @@
+@BASE_URL = http://localhost:3000
+
+### GET Welcome
+GET {{BASE_URL}}
+
+### GET Users
+GET {{BASE_URL}}/users
