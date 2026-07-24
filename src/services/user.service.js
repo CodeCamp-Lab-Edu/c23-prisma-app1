@@ -12,5 +12,27 @@ export async function findUserById(id) {
   const user = await prisma.user.findUnique({
     where: { id },
   });
-  return user
+  return user;
+}
+
+export async function updateUserById(id, name) {
+  const updatedUser = await prisma.user.update({
+    where: { id },
+    data: { name },
+  });
+
+  return updatedUser;
+}
+
+export async function deleteUserById(id) {
+  await prisma.$transaction([
+    prisma.post.deleteMany({
+      where: { userId: id },
+    }),
+    prisma.user.delete({
+      where: {
+        id,
+      },
+    }),
+  ]);
 }

@@ -13,17 +13,110 @@ datasource db {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  createAt DateTime @default(now())
-  email    String   @unique
+  id       Int       @id @default(autoincrement())
+  createAt DateTime  @default(now())
+  email    String    @unique
   name     String?
   posts    Post[]
+  profile  Profile?
+  orders   Order[]
+  comments Comment[]
 }
 
 model Post {
-  id      Int     @id @default(autoincrement())
-  title   String
-  content String?
-  user    User?   @relation(fields: [userId], references: [id])
-  userId  Int?
+  id        Int       @id @default(autoincrement())
+  title     String
+  content   String?
+  published Boolean   @default(false)
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
+  comments  Comment[]
+}
+
+model Profile {
+  id     Int  @id @default(autoincrement())
+  user   User @relation(fields: [userId], references: [id])
+  userId Int  @unique
+}
+
+model Student {
+  id                Int               @id @default(autoincrement())
+  name              String
+  email             String
+  classroom         Classroom?        @relation(fields: [classroomId], references: [id])
+  classroomId       Int?
+  studentActivities StudentActivity[]
+}
+
+model Classroom {
+  id         Int       @id @default(autoincrement())
+  name       String
+  gradeLevel String
+  students   Student[]
+}
+
+model Product {
+  id    Int    @id @default(autoincrement())
+  name  String
+  price Int    @default(0)
+  stock Int    @default(0)
+
+  orderItems OrderItem[]
+
+  deleteAt DateTime?
+  createAt DateTime @default(now())
+  updateAt DateTime?
+}
+
+model Order {
+  id         Int         @id @default(autoincrement())
+  orderDate  DateTime    @default(now())
+  user       User        @relation(fields: [userId], references: [id])
+  userId     Int
+  orderItems OrderItem[]
+}
+
+model OrderItem {
+  id          Int     @id @default(autoincrement())
+  quantity    Int
+  priceAtTime Int
+  order       Order   @relation(fields: [orderId], references: [id])
+  orderId     Int
+  product     Product @relation(fields: [productId], references: [id])
+  productId   Int
+}
+
+enum ActivityType {
+  SPORT
+  CULTURE
+  ACADEMIC
+}
+
+model Activity {
+  id                Int               @id @default(autoincrement())
+  title             String
+  type              ActivityType
+  studentActivities StudentActivity[]
+}
+
+model StudentActivity {
+  joinDate   DateTime @default(now())
+  student    Student  @relation(fields: [studentId], references: [id])
+  activity   Activity @relation(fields: [activityId], references: [id])
+  studentId  Int
+  activityId Int
+
+  @@id([studentId, activityId])
+}
+
+model Comment {
+  id              Int       @id @default(autoincrement())
+  text            String
+  post            Post      @relation(fields: [postId], references: [id])
+  postId          Int
+  user            User      @relation(fields: [userId], references: [id])
+  userId          Int
+  replies         Comment[] @relation("CommentReplies")
+  parentComment   Comment?  @relation("CommentReplies", fields: [parentCommentId], references: [id])
+  parentCommentId Int?
 }

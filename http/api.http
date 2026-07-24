@@ -8,3 +8,14 @@ GET {{BASE_URL}}/users
 
 ### GET User by id
 GET {{BASE_URL}}/users/333
+
+### PATCH User
+PATCH {{BASE_URL}}/users/2
+Content-Type: application/json
+
+{
+    "name": "JaJa"
+}
+
+### DELETE User
+DELETE {{BASE_URL}}/users/4
