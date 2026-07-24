@@ -17,10 +17,10 @@ model User {
   createAt DateTime  @default(now())
   email    String    @unique
   name     String?
-  posts    Post[]
-  profile  Profile?
-  orders   Order[]
-  comments Comment[]
+  // posts    Post[]
+  // profile  Profile?
+  // orders   Order[]
+  // comments Comment[]
 }
 
 model Post {
@@ -28,14 +28,14 @@ model Post {
   title     String
   content   String?
   published Boolean   @default(false)
-  user      User      @relation(fields: [userId], references: [id])
+  // user      User      @relation(fields: [userId], references: [id])
   userId    Int
   comments  Comment[]
 }
 
 model Profile {
   id     Int  @id @default(autoincrement())
-  user   User @relation(fields: [userId], references: [id])
+  // user   User @relation(fields: [userId], references: [id])
   userId Int  @unique
 }
 
@@ -71,8 +71,8 @@ model Product {
 model Order {
   id         Int         @id @default(autoincrement())
   orderDate  DateTime    @default(now())
-  user       User        @relation(fields: [userId], references: [id])
-  userId     Int
+  // user       User        @relation(fields: [userId], references: [id])
+  // userId     Int
   orderItems OrderItem[]
 }
 
@@ -114,8 +114,8 @@ model Comment {
   text            String
   post            Post      @relation(fields: [postId], references: [id])
   postId          Int
-  user            User      @relation(fields: [userId], references: [id])
-  userId          Int
+  // user            User      @relation(fields: [userId], references: [id])
+  // userId          Int
   replies         Comment[] @relation("CommentReplies")
   parentComment   Comment?  @relation("CommentReplies", fields: [parentCommentId], references: [id])
   parentCommentId Int?
