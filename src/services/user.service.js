@@ -7,3 +7,10 @@ export async function findAllUsers() {
 
   return users;
 }
+
+export async function findUserById(id) {
+  const user = await prisma.user.findUnique({
+    where: { id },
+  });
+  return user
+}

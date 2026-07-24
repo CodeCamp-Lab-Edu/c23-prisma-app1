@@ -1,5 +1,5 @@
 import express from "express";
-import prisma from "./lib/prisma.js";
+import { errorHandler } from "./middleware/error-handler.js";
 import userRoutes from "./routes/user.routes.js"
 
 const PORT = 3000;
@@ -12,6 +12,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/users", userRoutes)
+
+app.use(errorHandler)
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

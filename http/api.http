@@ -5,3 +5,6 @@ GET {{BASE_URL}}
 
 ### GET Users
 GET {{BASE_URL}}/users
+
+### GET User by id
+GET {{BASE_URL}}/users/333
